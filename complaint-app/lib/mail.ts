@@ -1,5 +1,15 @@
 import nodemailer from "nodemailer";
 
+type ComplaintType = {
+  title: string;
+  description: string;
+  category: string;
+  priority: string;
+  status: string;
+  dateSubmitted?: string;
+};
+
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -9,7 +19,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send on complaint submission
-export async function sendNewComplaintEmail(complaint: any) {
+export async function sendNewComplaintEmail(complaint: ComplaintType) {
   const html = `
     <h2>🆕 New Complaint Submitted</h2>
     <p><strong>Title:</strong> ${complaint.title}</p>
@@ -27,7 +37,7 @@ export async function sendNewComplaintEmail(complaint: any) {
 }
 
 // Send on status update
-export async function sendStatusUpdateEmail(complaint: any) {
+export async function sendStatusUpdateEmail(complaint: ComplaintType) {
   const html = `
     <h2>✅ Complaint Status Updated</h2>
     <p><strong>Title:</strong> ${complaint.title}</p>

@@ -35,7 +35,9 @@ export async function GET() {
     await connectToDB();
     const complaints = await Complaint.find().sort({ dateSubmitted: -1 });
     return NextResponse.json({ complaints }, {status: 200});
-  } catch (err) {
-    return NextResponse.json({ message: "Error fetching complaints" }, { status: 500 });
-  }
+  } catch (error) {
+  console.error("Error fetching complaints:", error);
+  return NextResponse.json({ message: "Error fetching complaints" }, { status: 500 });
+}
+
 }
