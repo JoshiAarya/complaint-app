@@ -21,6 +21,8 @@ export async function POST(req: Request) {
       priority,
     });
 
+    await sendNewComplaintEmail(complaint);
+
     return NextResponse.json({ message: "Complaint submitted successfully", complaint }, { status: 201 });
   } catch (error) {
     console.error("Error submitting complaint:", error);

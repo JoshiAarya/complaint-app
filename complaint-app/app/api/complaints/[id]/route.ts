@@ -1,6 +1,7 @@
 import { connectToDB } from "@/lib/db";
 import Complaint from "@/models/complaint";
 import { NextRequest, NextResponse } from "next/server";
+import { sendStatusUpdateEmail } from "@/lib/mail";
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -21,6 +22,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (!complaint) {
       return NextResponse.json({ message: "Complaint not found" }, { status: 404 });
     }
+
+    // Optional: Send email to admin about status update
+    await sendStatusUpdateEmail(complaint);
 
     return NextResponse.json({ message: "Status updated", complaint });
   } catch (err) {
