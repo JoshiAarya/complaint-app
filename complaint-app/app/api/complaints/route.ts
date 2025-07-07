@@ -27,3 +27,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    await connectToDB();
+    const complaints = await Complaint.find().sort({ dateSubmitted: -1 });
+    return NextResponse.json({ complaints }, {status: 200});
+  } catch (err) {
+    return NextResponse.json({ message: "Error fetching complaints" }, { status: 500 });
+  }
+}
